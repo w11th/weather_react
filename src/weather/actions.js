@@ -13,23 +13,33 @@ export const fetchWeatherFailure = (error) => ({
   error
 });
 
+let nextSeqId = 0;
 export const fetchWeather = (cityCode) => {
   return (dispatch) => {
     const apiUrl = `/data/cityinfo/${cityCode}.html`;
+    const seqId = ++ nextSeqId;
+    const dispatchIfValid = (action) => {
+      if (seqId === nextSeqId) {
+        return dispatch(action);
+      } else {
+        return null;
+      }
+    };
 
-    dispatch(fetchWeatherStarted());
+    dispatchIfValid(fetchWeatherStarted());
 
     fetch(apiUrl).then((response) => {
       if (response.status !== 200) {
         throw new Error('Fail to get response with status '+ response.status);
       }
       response.json().then((responseJson) => {
-        dispatch(fetchWeatherSuccess(responseJson.weatherinfo));
+        console.log(responseJson);
+        dispatchIfValid(fetchWeatherSuccess(responseJson.weatherinfo));
       }).catch((error) => {
-        throw new Error('Invalid json response:' + error);
+        dispatchIfValid(fetchWeatherFailure(error));
       });
     }).catch((error) => {
-      dispatch(fetchWeatherFailure(error));
+      dispatchIfValid(fetchWeatherFailure(error));
     })
   };
 }

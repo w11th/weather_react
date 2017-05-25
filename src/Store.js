@@ -22,4 +22,4 @@ const storeEnhancers = compose(
   (win && win.devToolsExtension) ? win.devToolsExtension() : (f) => f
 );
 
-export default createStore(reducer, {}, storeEnhancers);
+export default createStore(reducer, {}, storeEnhancers)

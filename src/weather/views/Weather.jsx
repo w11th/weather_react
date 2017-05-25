@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import * as Status from '../status.js';
-import {fetchWeatherStarted, fetchWeatherSuccess, fetchWeatherFailure, fetchWeather} from '../actions.js';
 
 const Weather = ({status, cityName, weather, lowestTemp, highestTemp}) => {
   switch(status) {
@@ -27,13 +26,13 @@ const Weather = ({status, cityName, weather, lowestTemp, highestTemp}) => {
 
 Weather.propTypes = {
   status: PropTypes.string.isRequired,
-  cityName: PropTypes.string.isRequired,
-  weather: PropTypes.string.isRequired,
-  lowestTemp: PropTypes.string.isRequired,
-  highestTemp: PropTypes.string.isRequired
+  cityName: PropTypes.string,
+  weather: PropTypes.string,
+  lowestTemp: PropTypes.string,
+  highestTemp: PropTypes.string
 }
 
-const mapStateTop = (state) => {
+const mapStateToProps = (state) => {
   const weatherData = state.weather;
 
   return {
@@ -45,4 +44,4 @@ const mapStateTop = (state) => {
   };
 }
 
-export default connect(mapStateTop)(Weather);
+export default connect(mapStateToProps)(Weather);
