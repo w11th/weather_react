@@ -33,7 +33,6 @@ export const fetchWeather = (cityCode) => {
         throw new Error('Fail to get response with status '+ response.status);
       }
       response.json().then((responseJson) => {
-        console.log(responseJson);
         dispatchIfValid(fetchWeatherSuccess(responseJson.weatherinfo));
       }).catch((error) => {
         dispatchIfValid(fetchWeatherFailure(error));
